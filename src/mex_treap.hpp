@@ -152,7 +152,7 @@ public:
             if (x->l) {
                 x->l->bound->R = idx;
                 decomp.push_back(boundary(x->l->idx + 1, x->p->idx + 1, idx, n, x->l->val));
-                ret.second.emplace_back(boundary(x->l->bound->L, x->p->idx + 1, idx, n, x->l->val));
+                ret.second.emplace_back(x->l->bound->L, x->p->idx + 1, idx, n, x->l->val);
                 x->l->bound = &decomp.back();
             }
             get(x);
