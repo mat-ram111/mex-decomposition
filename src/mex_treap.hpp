@@ -129,10 +129,10 @@ public:
             for (int i = 0; i <= n; i++) app(-1, i);
     };
 
-    pair<boundary*, vector<boundary*>> adv(int idx, int val) {
+    pair<optional<boundary>, vector<boundary>> adv(int idx, int val) {
         this->root->idx++;
     
-        pair<boundary*, vector<boundary*>> ret = {nullptr, {}};
+        pair<optional<boundary>, vector<boundary>> ret = {nullopt, {}};
         if (!(0 <= val && val < n)) return ret;
 
         treap_node_ptr x = val_to_node[val]; x->del = true; 
@@ -141,18 +141,18 @@ public:
         if (x->left) {
             x->left = false;
             if (x->bound) {
-                x->bound->R = idx; ret.first = x->bound;
+                x->bound->R = idx; ret.first = *(x->bound);
             }
             while (get(x->r) && (!x->l || x->r->val <= x->l->val)) {
                 treap_node_ptr y = x->r; x->left_rotate();
                 y->left = true;
                 decomp.push_back(boundary(y->idx + 1, y->p->idx + 1, idx, n, y->val));
-                ret.second.push_back(y->bound = &decomp.back());
+                ret.second.push_back(*(y->bound = &decomp.back()));
             }
             if (x->l) {
                 x->l->bound->R = idx;
                 decomp.push_back(boundary(x->l->idx + 1, x->p->idx + 1, idx, n, x->l->val));
-                ret.second.push_back(new boundary(x->l->bound->L, x->p->idx + 1, idx, n, x->l->val)); //fix this, causes memory leak currently
+                ret.second.emplace_back(boundary(x->l->bound->L, x->p->idx + 1, idx, n, x->l->val));
                 x->l->bound = &decomp.back();
             }
             get(x);

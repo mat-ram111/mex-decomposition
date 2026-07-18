@@ -21,8 +21,8 @@ public:
             dp[i + 1] = dp[i];
     
             auto [del, rep] = mt.adv(i, arr[i]);
-            if (del) dp[i + 1] = (dp[i + 1] + MOD - (pfx[del->L] + MOD - pfx[del->l]) % MOD * del->mex % MOD) % MOD;
-            for (boundary* bd : rep) dp[i + 1] = (dp[i + 1] + (pfx[bd->L] + MOD - pfx[bd->l]) % MOD * bd->mex % MOD) % MOD;
+            if (del) dp[i + 1] = (dp[i + 1] + MOD - (pfx[(*del).L] + MOD - pfx[(*del).l]) % MOD * (*del).mex % MOD) % MOD;
+            for (boundary bd : rep) dp[i + 1] = (dp[i + 1] + (pfx[bd.L] + MOD - pfx[bd.l]) % MOD * bd.mex % MOD) % MOD;
             dp[i + 1] = (dp[i + 1] + dp[i]) % MOD;
         }
     

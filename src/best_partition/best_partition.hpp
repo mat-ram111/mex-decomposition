@@ -15,7 +15,7 @@ public:
         mex_treap mt(n);
         for (int i = 0; i < n; i++) {
             dp[i + 1] = dp[i];
-            for (boundary* bd : mt.adv(i, arr[i]).second) dp[i + 1] = max(dp[i + 1], dp[bd->L - 1] + bd->mex);
+            for (boundary bd : mt.adv(i, arr[i]).second) dp[i + 1] = max(dp[i + 1], dp[bd.L - 1] + bd.mex);
         }
 
         return dp[n];
